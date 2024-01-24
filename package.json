@@ -1,0 +1,19 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "A simple discord bot for playing music with friends",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node dist/bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/voice": "^0.16.1",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.2",
+    "tweetnacl": "^1.0.3",
+    "ytdl-core": "^4.11.5"
+  }
+}
