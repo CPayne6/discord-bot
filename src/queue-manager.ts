@@ -1,15 +1,14 @@
-import { VoiceConnectionStatus } from "@discordjs/voice";
 import { Queue } from "./queue";
 
 class QueueManager {
   queues: Record<string, Queue>
 
-  constructor(){
+  constructor() {
     this.queues = {}
   }
 
-  get(id: string | null){
-    if(!id) return undefined
+  get(id: string | null) {
+    if (!id) return undefined
     return this.queues[id]
   }
 
@@ -17,9 +16,19 @@ class QueueManager {
     this.queues[id] = queue
   }
 
-  remove(id: string){
+  remove(id: string) {
     this.queues[id]?.destroy()
     delete this.queues[id]
+  }
+
+  /**
+   * Disconnect all queues from voice calls and empty the queues
+   */
+  destroy() {
+    Object.entries(this.queues).forEach(([key, queue]) => {
+      queue.destroy()
+    })
+    this.queues = {}
   }
 }
 

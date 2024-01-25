@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
 
 export interface Loader {
-  load: (link: string) => Readable | undefined
+  load: (link: string) => Promise<Readable | undefined>
 }

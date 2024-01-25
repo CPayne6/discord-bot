@@ -61,14 +61,19 @@ export class Queue {
     })
   }
 
-  play(link: string) {
-    const stream = this.loader.load(link)
+  async play(link: string) {
+    const stream = await this.loader.load(link)
     if (!stream) {
       this.next()
       return false
     }
 
     stream.on('end', () => {
+      this.next()
+    })
+
+    stream.on('error', (err) => {
+      console.error(err)
       this.next()
     })
 

@@ -1,10 +1,14 @@
-import ytdl from 'ytdl-core'
+import { stream } from 'play-dl'
 import { Loader } from './loader.types'
 
 export class YTLoader implements Loader {
-  load(link: string) {
+  async load(link: string) {
     try {
-      return ytdl(link, { filter: 'audioonly' })
+      const s = await stream(link, { 
+        discordPlayerCompatibility: true,
+        quality: 0
+      })
+      return s.stream
     }
     catch (err) {
       console.error(err)

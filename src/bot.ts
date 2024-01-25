@@ -28,7 +28,7 @@ bot.on('messageCreate', (message) => {
   const channel = message.channel
   if (!channel) return
   const content = message.content.trim()
-  if (content[0] !== '?') return
+  if (content[0] !== config.COMMAND_CHAR) return
   const [command, link] = content.substring(1).split(' ')
 
   const member = message.member
@@ -60,7 +60,28 @@ bot.on('messageCreate', (message) => {
       break;
     case 'clear':
       handlers.clear(channel, queue)
+      break;
+    case 'help':
+    default:
+      channel.send(`List of commands:
+- "${config.COMMAND_CHAR}play <link>" add youtube video or soundcloud song to queue and play
+- "${config.COMMAND_CHAR}play" resume song
+- "${config.COMMAND_CHAR}pause" pause the queue
+- "${config.COMMAND_CHAR}skip" go to next song in queue
+- "${config.COMMAND_CHAR}clear" clear the queue`)
   }
 })
+
+function terminate(signal: string) {
+  console.info(signal)
+  queueManager.destroy()
+  // Provide delay for streams disconnect to happen before node process ended
+  setTimeout(() => process.exit(0), 100)
+}
+
+// Destroy voice connections on container stop
+process.on('SIGINT', terminate)
+process.on('SIGTERM', terminate)
+process.on('SIGQUIT', terminate)
 
 bot.login(config.TOKEN)
