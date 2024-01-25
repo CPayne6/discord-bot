@@ -1,8 +1,19 @@
-version: '2'
+version: "2"
 services:
   bot:
+    restart: always
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
-    env_file:
-    - ../.env
+    secrets:
+      - token
+      - application_id
+      - public_id
+
+secrets:
+  token:
+    environment: "TOKEN"
+  application_id:
+    environment: "APPLICATION_ID"
+  public_id:
+    environment: "PUBLIC_ID"

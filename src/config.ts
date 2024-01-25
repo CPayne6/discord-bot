@@ -1,8 +1,18 @@
 import dotenv from 'dotenv'
+import fs from 'fs'
 import play from 'play-dl'
 
-if (process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV === 'development') {
   dotenv.config()
+}
+else {
+  // load the secrets from the folder created by docker
+  const secretsDirName = '/run/secrets'
+  const secretNames = fs.readdirSync(secretsDirName)
+  for(const name of secretNames) {
+    process.env[name.toUpperCase()] = fs.readFileSync(`${secretsDirName}/${name}`).toString()
+  }
+}
 
 play.getFreeClientID().then((id: string) => {
   play.setToken({
