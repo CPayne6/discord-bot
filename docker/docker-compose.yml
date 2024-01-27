@@ -6,9 +6,9 @@ services:
       context: ../
       dockerfile: ./docker/Dockerfile
     secrets:
-      - token
-      - application_id
-      - public_id
+        - token
+        - application_id
+        - public_id  
 
 secrets:
   token:

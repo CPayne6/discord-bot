@@ -3,6 +3,18 @@ import { config } from './config'
 import { queueManager } from './queue-manager'
 import * as handlers from './handlers'
 
+// // Server code to allow for containerization in cloud run
+// import { Server } from 'http'
+
+// const server = new Server()
+
+// server.on('request', (_, res) => {
+//   res.writeHead(200)
+//   res.end()
+// })
+
+// server.listen(8080)
+
 function isGuildMember(m: any): m is GuildMember {
   return m instanceof GuildMember
 }
@@ -24,7 +36,7 @@ bot.on('error', (err) => {
   console.error(err)
 })
 
-bot.on('voiceStateUpdate', handlers.idle)
+bot.on('voiceStateUpdate', handlers.stateChange)
 
 bot.on('messageCreate', (message) => {
   const channel = message.channel
@@ -36,11 +48,6 @@ bot.on('messageCreate', (message) => {
   const member = message.member
   if (!isGuildMember(member)) {
     channel.send('Must be a server member')
-    return
-  }
-
-  if (!member.voice.channel) {
-    channel.send('Must be in a voice channel')
     return
   }
 
@@ -78,7 +85,11 @@ function terminate(signal: string) {
   console.info(signal)
   queueManager.destroy()
   // Provide delay for streams disconnect to happen before node process ended
-  setTimeout(() => process.exit(0), 100)
+  setTimeout(() => {
+    // server.closeAllConnections()
+    // server.close()
+    process.exit(0)
+  }, 100)
 }
 
 // Destroy voice connections on container stop
