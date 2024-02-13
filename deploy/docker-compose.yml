@@ -1,0 +1,31 @@
+version: "2"
+services:
+
+  init:
+    build:
+      context: ../
+      dockerfile: ./init/Dockerfile
+    secrets:
+      - token
+      - application_id
+
+  bot:
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./bot/Dockerfile
+    secrets:
+      - token
+      - application_id
+      - public_id
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+secrets:
+  token:
+    environment: "TOKEN"
+  application_id:
+    environment: "APPLICATION_ID"
+  public_id:
+    environment: "PUBLIC_ID"

@@ -1,0 +1,20 @@
+{
+  "name": "bot-commands-init",
+  "version": "1.0.0",
+  "description": "Script to deploy the commands for the bot before it starts",
+  "main": "deploy.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "start": "tsc --build tsconfig.json && NODE_ENV=development node dist/deploy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

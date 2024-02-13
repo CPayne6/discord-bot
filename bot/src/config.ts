@@ -3,7 +3,7 @@ import fs from 'fs'
 import play from 'play-dl'
 
 if (process.env.NODE_ENV === 'development') {
-  dotenv.config()
+  dotenv.config({ path: '../.env' })
 }
 else {
   // load the secrets from the folder created by docker
