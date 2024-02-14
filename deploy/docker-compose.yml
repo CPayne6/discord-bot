@@ -12,8 +12,8 @@ services:
   bot:
     restart: always
     build:
-      context: ../
-      dockerfile: ./bot/Dockerfile
+      context: ../bot
+      dockerfile: Dockerfile
     secrets:
       - token
       - application_id

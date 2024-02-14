@@ -1,11 +1,11 @@
 import { REST, Routes } from "discord.js";
 import dotenv from 'dotenv';
-import * as commands from '../../bot/src/commands'
+import * as commands from './commands'
 import * as fs from 'fs'
 
 // Configure secrets
 if (process.env.NODE_ENV === 'development') {
-  dotenv.config({ path: '../../.env' })
+  dotenv.config({ path: '../.env' })
 }
 else {
   // load the secrets from the folder created by docker
@@ -33,8 +33,8 @@ const rest = new REST({ version: "10" }).setToken(token);
 
 (async () => {
   try {
-    console.log("Started refreshing application (/) commands.");
-    console.log(commandsData)
+    console.log(`Started refreshing ${commandsData.length} application (/) commands.`);
+
     await rest.put(
       Routes.applicationCommands(clientId),
       {
@@ -42,7 +42,7 @@ const rest = new REST({ version: "10" }).setToken(token);
       }
     );
 
-    console.log("Successfully reloaded application (/) commands.");
+    console.log(`Successfully reloaded ${commandsData.length} application (/) commands.`);
   } catch (error) {
     console.error(error);
   }

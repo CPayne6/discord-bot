@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits, GuildMember } from 'discord.js'
 import { config } from './config'
 import { queueManager } from './queue-manager'
 import * as handlers from './handlers'
-import * as commands from './commands'
+import commands from './commands'
 import * as utils from './utils'
 
 function isGuildMember(m: any): m is GuildMember {
@@ -30,13 +30,13 @@ bot.on('voiceStateUpdate', handlers.stateChange)
 
 bot.on('interactionCreate', function (interaction) {
   if (!interaction.isChatInputCommand()) return;
-  
+
   const commandName = interaction.commandName
-  if(!commandName) return
+  if (!commandName) return
 
-  const command = commands[commandName as 'play']
+  const command = commands[commandName as keyof typeof commands]
 
-  if(!command){
+  if (!command) {
     const message = `No command ${interaction.commandName} was found`
     console.error(message)
     utils.reply(interaction, message)
@@ -46,15 +46,15 @@ bot.on('interactionCreate', function (interaction) {
   try {
     command.execute(interaction)
   }
-  catch(err) {
+  catch (err) {
     console.error(err)
 
     if (interaction.replied || interaction.deferred) {
-			interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-  }  
+      interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+    } else {
+      interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+  }
 })
 
 // bot.on('messageCreate', (message) => {

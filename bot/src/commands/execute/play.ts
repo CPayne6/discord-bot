@@ -1,9 +1,10 @@
 import { APIInteractionGuildMember, GuildMember, SlashCommandBuilder, VoiceBasedChannel } from "discord.js";
-import { withExtractedQueue } from "../middleware";
-import { Queue } from "../queue";
-import { YTLoader } from "../loader";
-import { queueManager } from "../queue-manager";
-import * as utils from '../utils'
+import { withExtractedQueue } from "../../middleware";
+import { Queue } from "../../queue";
+import { YTLoader } from "../../loader";
+import { queueManager } from "../../queue-manager";
+import * as utils from '../../utils'
+import { stringOptionName } from '../data/play'
 
 function isGuildMember(member: GuildMember | APIInteractionGuildMember | null): member is GuildMember {
   return (member as GuildMember | null)?.id !== undefined
@@ -12,19 +13,6 @@ function isGuildMember(member: GuildMember | APIInteractionGuildMember | null): 
 function createQueue(channel: VoiceBasedChannel) {
   return new Queue(new YTLoader(), channel, () => { queueManager.remove(channel.guildId) })
 }
-
-const commandName = 'play'
-const description = 'Clears all items from the queue'
-
-const stringOptionName = 'link'
-const stringOptionDescription = 'The YouTube or SoundCloud link to play'
-
-export const data = new SlashCommandBuilder()
-  .setName(commandName)
-  .setDescription(description)
-  .addStringOption(
-    option => option.setName(stringOptionName).setDescription(stringOptionDescription)
-  )
 
 export const execute = withExtractedQueue((
   interaction,
@@ -60,6 +48,7 @@ export const execute = withExtractedQueue((
 
   if (link) {
     queue.add(link)
+    utils.reply(interaction, "Playing link")
   }
 
   if (queue.isIdle()) {
@@ -67,6 +56,10 @@ export const execute = withExtractedQueue((
   }
   else if (queue.isPaused()) {
     queue.unpause()
+    utils.reply(interaction, "Resuming queue")
+  }
+  else if (!link){
+    utils.reply(interaction, "Please provide link")
   }
 })
 

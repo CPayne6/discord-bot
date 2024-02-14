@@ -4,8 +4,8 @@
   "description": "Script to deploy the commands for the bot before it starts",
   "main": "deploy.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.json",
-    "start": "tsc --build tsconfig.json && NODE_ENV=development node dist/deploy.js",
+    "build": "tsc",
+    "start": "tsc && NODE_ENV=development node dist/deploy.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

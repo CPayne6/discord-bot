@@ -6,8 +6,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN echo $(ls)
-
 RUN npm i
 
 RUN npm run build
