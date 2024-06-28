@@ -21,6 +21,8 @@ COPY --from=build /app/package.json /app
 
 RUN apk add ffmpeg -q
 
+RUN apk add --no-cache git
+
 ENV NODE_ENV=production
 
 RUN npm i --omit=dev

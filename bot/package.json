@@ -14,7 +14,7 @@
     "@discordjs/voice": "^0.16.1",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.2",
-    "play-dl": "^1.9.7",
+    "play-dl": "github:Yoduh/play-dl-test",
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {

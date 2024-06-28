@@ -1,5 +1,4 @@
 {
 	"name": "ws-event-server/devcontainer",
-	"build": { "dockerfile": "Dockerfile" },
-	"forwardPorts": [3333]
+	"build": { "dockerfile": "Dockerfile" }
 }
